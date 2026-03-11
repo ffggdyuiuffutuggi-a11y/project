@@ -2,60 +2,65 @@
 #include <ctime>
 using namespace std;
 
-enum Progress
-    {
-        WIN,
-    };
 
-int Check()
-{
-    Progress iswin;
-    iswin = Progress::WIN;
-    if(iswin == 0)
-    {
-        cout << "You win!";
-    }
-    return iswin;
-}
 
 int main()
 {
-    int n, p;
-    next:
-    cout << "Enter the numbers of attempts: ";
-    cin >> n;
-    if(n>=30)
+    bool flag = true;
+    
+    while(flag == true)
     {
-        cout << "Choose a number of attempts less than 30!\n";
-        goto next;
-    }
-    p = n;
-    cout << "The numbers will be from 1 to 100.\nStart!\n";
-    srand(time(NULL));
-    const int NUM = rand() % 100 + 1;
-    cout << "Num =" << NUM;
-    int b;
-    for(int i = 0; i < n; i++)
-    {
-        cout << "Enter: ";
-        cin >> b;
-        if(b == NUM)
+        int num_attempt;
+        
+        while(true)
         {
-            Check();
-            break;
-        }
-        else
-        {
-            cout << "This is not a hidden number!\n";
-            p--;
-            if(p==0)
+            cout << "Enter the numbers of attempts: ";
+            cin >> num_attempt;
+            if ((num_attempt > 30) || (num_attempt <= 0))
             {
-                cout << "There are no more attempts!";
+                cout << "Choose a number of attempts between 0 and 30!\n";
+            }
+            
+            else
+            {
+                break;
+            }
+        }
+        
+        
+        cout << "The numbers will be from 1 to 100.\nStart!\n";
+        srand(time(NULL));
+        const int comp_num = rand() % 100 + 1;
+        int user_num;
+        while(true)
+        {
+            cout << "Enter: ";
+            cin >> user_num;
+            if(user_num == comp_num)
+            {
+                cout << "YOU WIN!";
                 break;
             }
             else
             {
-               cout << "Number of attempts: " << p  << endl; 
+                cout << "This is not a hidden number!\n";
+                num_attempt--;
+                if(num_attempt==0)
+                {
+                    char answer;
+                    cout << "There are no more attempts!\nDo you want to play again? (Y / N)\n";
+                    cin >> answer;
+                    if (answer == 'N')
+                    {
+                        flag = false;
+                    }
+
+                    break;
+                }
+                else
+                {
+                cout << "Number of attempts: " << num_attempt  << endl; 
+                }
             }
         }
     }
